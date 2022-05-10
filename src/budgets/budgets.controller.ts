@@ -14,7 +14,7 @@ export class BudgetsController {
 
   @Get()
   findAll() {
-    return this.budgetsService.findAll();
+    return this.budgetsService.findAll()
   }
 
   @Get(':id')
