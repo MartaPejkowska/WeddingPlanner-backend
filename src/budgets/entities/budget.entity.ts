@@ -14,4 +14,7 @@ export class Budget {
   @Column()
   name: string;
 
+  // @Column()
+  // sum: number;
+
 }

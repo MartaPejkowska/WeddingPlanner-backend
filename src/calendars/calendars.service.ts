@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCalendarDto } from './dto/create-calendar.dto';
 import { UpdateCalendarDto } from './dto/update-calendar.dto';
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { Calendar } from './entities/calendar.entity';
+import { Task } from 'src/tasks/entities/task.entity';
 
 @Injectable()
 export class CalendarsService {
-  create(createCalendarDto: CreateCalendarDto) {
-    return 'This action adds a new calendar';
+  @InjectRepository(Calendar) private repository: Repository<Calendar>;
+  create(body: CreateCalendarDto) {
+    let calendar=new Calendar()
+   
+      return this.repository.save(calendar);
   }
 
   findAll() {
-    return `This action returns all calendars`;
+    return this.repository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} calendar`;
+    
+    return this.repository.createQueryBuilder("calendar")
+    .where("calendar.id = " + id)
+    .getOne()
+    
   }
 
-  update(id: number, updateCalendarDto: UpdateCalendarDto) {
-    return `This action updates a #${id} calendar`;
-  }
 
-  remove(id: number) {
-    return `This action removes a #${id} calendar`;
+  async remove(id: number) {
+    let calendar = await this.repository.findOne(id);
+    this.repository.remove(calendar);
   }
 }

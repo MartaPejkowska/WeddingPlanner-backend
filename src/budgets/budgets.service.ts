@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBudgetDto } from './dto/create-budget.dto';
 import { UpdateBudgetDto } from './dto/update-budget.dto';
-
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Budget } from "./entities/budget.entity";
@@ -11,15 +10,13 @@ import { Budget } from "./entities/budget.entity";
 export class BudgetsService {
 @InjectRepository(Budget) private repository: Repository<Budget>;
 
-
-
   create(body: CreateBudgetDto) {
       let budget=new Budget()
+      let sum=0
       budget.budget=body.budget,
       budget.costs=body.costs,
-      budget.name=body.name
-      
-      
+      budget.name=body.name     
+     
       return this.repository.save(budget);
     };
 
@@ -28,7 +25,8 @@ export class BudgetsService {
   };
 
   findOne(id: number) {
-    return this.repository.createQueryBuilder("budget")
+
+      return this.repository.createQueryBuilder("budget")
     .where("budget.id = " + id)
     .getOne()
     
@@ -42,6 +40,7 @@ export class BudgetsService {
       budget.budget=body.budget,
       budget.costs=body.costs,
       budget.name=body.name
+      
       return this.repository.save(budget);
      })
    }
@@ -51,7 +50,16 @@ export class BudgetsService {
     this.repository.remove(budget);
   }
   
+//  async sum(){
+//   let {sum }= await this.repository.createQueryBuilder("budget")
+//     // .select("budget.costs")
+//     .select("SUM(budget.costs)", "sum")
+//     // .groupBy("budget.costs")
+//     .getRawOne()
+
+//     return sum
   
+// }
    
   }
 

@@ -22,10 +22,10 @@ export class CalendarsController {
     return this.calendarsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCalendarDto: UpdateCalendarDto) {
-    return this.calendarsService.update(+id, updateCalendarDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateCalendarDto: UpdateCalendarDto) {
+  //   return this.calendarsService.update(+id, updateCalendarDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

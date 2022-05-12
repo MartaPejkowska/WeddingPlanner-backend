@@ -9,4 +9,5 @@ export class CreateBudgetDto {
 
     @IsString()
     name: string;
+
 }

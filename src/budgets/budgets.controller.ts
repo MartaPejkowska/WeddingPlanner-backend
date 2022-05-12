@@ -31,4 +31,9 @@ export class BudgetsController {
   remove(@Param('id') id: string) {
     return this.budgetsService.remove(+id);
   }
+
+  // @Get('/sum')
+  // sum(){
+  //   return this.budgetsService.sum()
+  // }
 }
