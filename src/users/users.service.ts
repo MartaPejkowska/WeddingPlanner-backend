@@ -1,51 +1,96 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { User, UserRole } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { HttpStatus } from '@nestjs/common';
+import { HttpException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Request } from 'express';
+import { AuthHelper } from './auth/auth.helper';
+
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnModuleInit {
   @InjectRepository(User)
-  private readonly repository: Repository<User>;
+  private readonly userRepository: Repository<User>;
 
-  create(body: CreateUserDto) {
+  @Inject(ConfigService)
+  private config: ConfigService;
 
-    let user = new User()
-    user.email = body.email
-    user.password = body.password
+  @Inject(AuthHelper)
+  private authHelper: AuthHelper;
 
-    this.repository.save(user);
+  onModuleInit() {
+    this.initDatabaseWithAdmin();
   }
 
-  findAll() {
-    return this.repository.find();
+
+ async initDatabaseWithAdmin(){
+  
+  console.log(this.config.get<string>('MAIL_PASSWORD'));
+  
+  
+  let user = await this.userRepository.findOne(  {where: {role: "admin"}})
+
+
+
+   if(!user) {
+    let adminUser:User = new User()
+    adminUser.email = this.config.get<string>('ADMIN_EMAIL')
+    adminUser.password = this.authHelper.encodePassword( this.config.get<string>('ADMIN_PASSWORD'))
+    adminUser.role = UserRole.ADMIN
+    adminUser.isActive = true,
+    adminUser.firstName = "admin",
+    adminUser.lastName = "admin"
+    this.userRepository.save(adminUser);
+   }
   }
+   
 
-  findOne(id: number) {
-    return this.repository.createQueryBuilder("user")
-    .where("user.id = " + id)
-    .getOne()
-    
-  }
+  async update(id: number, body: UpdateUserDto,req:Request) {
+    let user= await this.userRepository.findOne({
+     id:id })
+ 
+     if(!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
 
-  update(id: number, body: UpdateUserDto) {
-
-   return this.repository.findOne({
-     id:id
-   }).then(user => {
+    if(req.user instanceof User && id === req.user.id) {
       user.email = body.email
       user.password = body.password
-      this.repository.save(user);
-      return user
-    })
-
-  
-
+      user.firstName = body.firstName
+      user.lastName = body.lastName
+      this.userRepository.save(user); 
+      return user;
+    } else {
+      throw new HttpException('Access Forbidden', HttpStatus.FORBIDDEN);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async updateActive(req: Request) {
+
+    if(req.user instanceof User) {
+      let user= await this.userRepository.findOne({
+        id:req.user.id })
+        if(!user) {
+          throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        }
+        user.isActive = true
+      this.userRepository.save(user); 
+      return user;
+    } else {
+      throw new HttpException('Access Forbidden', HttpStatus.FORBIDDEN);
+    }
   }
+
+ async remove(id: number) {
+    let user= await this.userRepository.findOne({
+      id:id })
+
+      if(!user) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+  }
+
 }

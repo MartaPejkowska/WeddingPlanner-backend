@@ -9,6 +9,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
   public createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
+      
       type: 'postgres',
       host: this.config.get<string>('DATABASE_HOST'),
       port: this.config.get<number>('DATABASE_PORT'),

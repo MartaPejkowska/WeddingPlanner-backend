@@ -1,14 +1,24 @@
-import { IsEmail, IsNotEmpty, Min, Max,Matches,Validate } from "class-validator";
+import { IsEmail, IsNotEmpty, Min, Max,Matches,Validate, IsString } from "class-validator";
 import { CustomMatchPasswords } from "src/users/CustomMatchPasswords ";
 
 
-export class CreateUserDto {
+export class RegisterDto {
     @IsNotEmpty()
     @IsEmail()
     email: string;
+    
     @IsNotEmpty()
     @Validate(CustomMatchPasswords, ['repassword'])
     password: string;
+
     @IsNotEmpty()
     repassword: string;
+
+    @IsNotEmpty()
+    @IsString()
+    firstName: string;
+
+    @IsNotEmpty()
+    @IsString()
+    lastName: string;
 }
