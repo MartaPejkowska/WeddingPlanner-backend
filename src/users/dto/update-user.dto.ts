@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { IsEmail, IsNotEmpty, Min, Max,Matches,Validate, IsString } from "class-validator";
-import { CustomMatchPasswords } from "src/users/CustomMatchPasswords ";
+import { CustomMatchPasswords } from '../CustomMatchPasswords ';
 import { RegisterDto } from './create-user.dto';
 export class UpdateUserDto extends PartialType(RegisterDto) {
 
