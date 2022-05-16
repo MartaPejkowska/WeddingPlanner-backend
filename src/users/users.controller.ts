@@ -13,8 +13,8 @@ export class UsersController {
 
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtAuthGuard) //wkleić jeśli ktoś ma być zalogowany
+  @UseInterceptors(ClassSerializerInterceptor) //
    update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto,@Req() req: Request) {
     return this.usersService.update(id,updateUserDto,req);
   }

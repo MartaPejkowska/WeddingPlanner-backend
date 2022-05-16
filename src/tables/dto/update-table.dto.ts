@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateTableDto } from './create-table.dto';
-import { IsEnum, IsNumber } from "class-validator";
+import { IsEnum, IsNumber, IsString } from "class-validator";
 import { TablesKind } from "../entities/table.entity";
 
 export class UpdateTableDto extends PartialType(CreateTableDto) {
@@ -12,6 +12,8 @@ kind: TablesKind
 amountOfTables:number;
 
 @IsNumber()
-seats:number
+seats:number;
 
+@IsString({ each: true })
+ users:string;
 }

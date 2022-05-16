@@ -1,5 +1,4 @@
-import { User } from "src/users/entities/user.entity";
-import {  Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import {  Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 export enum TablesKind {
     ROUND = 'round',
@@ -17,16 +16,16 @@ export class Table {
         enum: TablesKind,
         // default: TablesKind.rectangle
     })
-    kind: TablesKind
+    kind: TablesKind;
 
     @Column()
     amountOfTables:number;
 
     @Column()
-    seats:number
+    seats:number;
 
-    @OneToMany(()=> User, user=> user.table, {cascade:true, eager:true})
-    users: User[]
+    @Column({ array: true })
+    users: string;
 
 
 }

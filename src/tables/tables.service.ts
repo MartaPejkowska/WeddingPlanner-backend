@@ -4,35 +4,28 @@ import { UpdateTableDto } from './dto/update-table.dto';
 import { Table } from './entities/table.entity';
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { User } from 'src/users/entities/user.entity';
+import { HttpException } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common';
+
 
 @Injectable()
 export class TablesService {
   @InjectRepository(Table) private repository: Repository<Table>;
 
-  @InjectRepository(User) private repositoryUser: Repository<User>;
+  // @InjectRepository(User) private repositoryUser: Repository<User>;
 
   async create(body: CreateTableDto) {
     let table=new Table()
 
     table.kind=body.kind,
     table.amountOfTables=body.amountOfTables,
-    table.seats=body.seats
-    // table.users= await this.repositoryUser.findOne({id: body.UserId})
-    // return this.repository.save(
-    //   this.repository.create({
-    //     ...table,
-    //     users: await this.repositoryUser.findOne({ id: body.UserId }),
-    //   }),
-    // )
+    table.seats=body.seats,
+    table.users=body.users
 
-    table.users=  await this.repository
-    .createQueryBuilder()
-    .relation(Table, "users")
-    .of(table) 
-    .loadMany()
-
-  return this.repository.save(table);
+  if (table.users.length>table.seats) {
+    throw new HttpException( `Maksymalna liczba osób przy stole to ${table.seats}`, HttpStatus.BAD_REQUEST )
+  } else return this.repository.save(table);
+  
   }
 
   findAll() {
@@ -53,9 +46,14 @@ export class TablesService {
     }).then(table => {
       table.kind=body.kind,
       table.amountOfTables=body.amountOfTables,
-      table.seats=body.seats
+      table.seats=body.seats,
+      table.users=body.users
       
-      return this.repository.save(table);
+      
+      if (table.users.length>table.seats) {
+        throw new HttpException( `Maksymalna liczba osób przy stole to ${table.seats}`, HttpStatus.BAD_REQUEST)
+      } else return this.repository.save(table);
+      
   })
 }
 
