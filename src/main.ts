@@ -15,6 +15,8 @@ async function bootstrap() {
   await app.listen(port, () => {
     console.log('[WEB]', config.get<string>('BASE_URL'));
   });
+
+  
 }
 
 bootstrap();
