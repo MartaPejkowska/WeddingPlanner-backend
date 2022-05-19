@@ -1,26 +1,50 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePictureDto } from './dto/create-picture.dto';
 import { UpdatePictureDto } from './dto/update-picture.dto';
-
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import {Picture} from './entities/picture.entity';
+import DatabaseFilesService from './databaseFiles.service';
+ 
 @Injectable()
 export class PicturesService {
-  create(createPictureDto: CreatePictureDto) {
-    return 'This action adds a new picture';
+  constructor(
+    @InjectRepository(Picture)
+    private picturesRepository: Repository<Picture>,
+    private readonly databaseFilesService: DatabaseFilesService,
+  ) {}
+ 
+  async addImg(imageBuffer: Buffer, filename: string) {
+    const img = await this.databaseFilesService.uploadDatabaseFile(imageBuffer, filename);
+    await this.picturesRepository.save(  {
+      imgId: img.id
+    });
+    return img;
   }
-
-  findAll() {
-    return `This action returns all pictures`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} picture`;
-  }
-
-  update(id: number, updatePictureDto: UpdatePictureDto) {
-    return `This action updates a #${id} picture`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} picture`;
-  }
+ 
+  // ...
 }
+
+
+// @Injectable()
+// export class PicturesService {
+//   create(createPictureDto: CreatePictureDto) {
+//     return 'This action adds a new picture';
+//   }
+
+//   findAll() {
+//     return `This action returns all pictures`;
+//   }
+
+//   findOne(id: number) {
+//     return `This action returns a #${id} picture`;
+//   }
+
+//   update(id: number, updatePictureDto: UpdatePictureDto) {
+//     return `This action updates a #${id} picture`;
+//   }
+
+//   remove(id: number) {
+//     return `This action removes a #${id} picture`;
+//   }
+// }

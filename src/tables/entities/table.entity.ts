@@ -14,7 +14,6 @@ export class Table {
     @Column({
         type: "enum",
         enum: TablesKind,
-        // default: TablesKind.rectangle
     })
     kind: TablesKind;
 
