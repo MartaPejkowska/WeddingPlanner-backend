@@ -1,5 +1,6 @@
 import { Task } from "src/tasks/entities/task.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Wedding } from "src/weddings/entities/wedding.entity";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Calendar {
@@ -9,4 +10,7 @@ export class Calendar {
     
     @OneToMany(()=> Task, task=> task.calendar, {cascade:true, eager:true})
     tasks: Task[]
+ 
+    @OneToOne(() => Wedding, wedding => wedding.calendar) // specify inverse side as a second parameter
+    wedding: Wedding
 }

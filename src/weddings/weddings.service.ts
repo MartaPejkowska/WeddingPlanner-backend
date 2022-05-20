@@ -26,10 +26,7 @@ export class WeddingsService {
   }
 
   findOne(id: number) {
-    
-    // return this.weddingRepository.createQueryBuilder("Wedding")
-    // .where("Wedding.id = " + id)
-    // .getOne()
+   
     return this.weddingRepository.findOne(id)
     
   }

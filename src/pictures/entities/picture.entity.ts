@@ -18,7 +18,7 @@ img: Uint8Array;
 
 
 // @ManyToOne(()=> Wedding, wedding=> wedding.pictures, {onDelete:'CASCADE'})
-// wedding:Wedding ;
+// wedding:Wedding;
 
 
 }

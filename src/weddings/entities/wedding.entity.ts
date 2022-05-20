@@ -1,6 +1,7 @@
+import { Calendar } from "src/calendars/entities/calendar.entity";
 import { Picture } from "src/pictures/entities/picture.entity";
 import { Table } from "src/tables/entities/table.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 export enum weddingTypes{
     KONKORDATOWY= 'konkordatowy',
@@ -24,6 +25,10 @@ export class Wedding {
     @OneToMany(()=> Table, table=> table.wedding, {cascade:true, eager:true})
     tables: Table[]
 
-    //  @OneToMany(()=> Picture, picture=> picture.img, {cascade:true, eager:true})
+    @OneToOne(() => Calendar, calendar => calendar.wedding, {cascade:true, eager:true}) // specify inverse side as a second parameter
+    @JoinColumn()
+    calendar: Calendar
+    
+    // @OneToMany(()=> Picture, picture=> picture.img, {cascade:true, eager:true})
     // pictures: Picture[]
 }
