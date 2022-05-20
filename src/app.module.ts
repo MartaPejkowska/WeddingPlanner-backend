@@ -24,7 +24,7 @@ import { MailModule } from './mail/mail.module';
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
 @Module({
-  imports: [ConfigModule.forRoot({ envFilePath, isGlobal: true }),TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),WeddingsModule, UsersModule, GroomsModule, BridesModule, BudgetsModule, InvitationsModule, LayoutsModule, PicturesModule, GuestsModule, TablesModule, PresentsModule, CalendarsModule, TasksModule,TypeOrmModule.forFeature([User]), MailModule],
+  imports: [ConfigModule.forRoot({ envFilePath, isGlobal: true }),TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),WeddingsModule, UsersModule, GroomsModule, BridesModule, BudgetsModule, InvitationsModule, LayoutsModule, PicturesModule, GuestsModule, TablesModule, PresentsModule, CalendarsModule, TasksModule, MailModule],
   controllers: [AppController],
   providers: [AppService],
 })
