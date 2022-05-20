@@ -12,8 +12,6 @@ import { HttpStatus } from '@nestjs/common';
 export class TablesService {
   @InjectRepository(Table) private repository: Repository<Table>;
 
-  // @InjectRepository(User) private repositoryUser: Repository<User>;
-
   async create(body: CreateTableDto) {
     let table=new Table()
 

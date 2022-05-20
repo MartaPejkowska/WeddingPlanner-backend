@@ -21,7 +21,6 @@ export class WeddingsService {
   }
       
   
-
   findAll() {
     return this.weddingRepository.find();
   }
