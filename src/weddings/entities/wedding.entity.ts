@@ -1,4 +1,5 @@
 import { Picture } from "src/pictures/entities/picture.entity";
+import { Table } from "src/tables/entities/table.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 export enum weddingTypes{
@@ -19,6 +20,9 @@ export class Wedding {
         enum: weddingTypes
     })
     kind: weddingTypes
+
+    @OneToMany(()=> Table, table=> table.wedding, {cascade:true, eager:true})
+    tables: Table[]
 
      @OneToMany(()=> Picture, picture=> picture.img, {cascade:true, eager:true})
     pictures: Picture[]

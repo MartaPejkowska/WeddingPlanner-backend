@@ -6,11 +6,13 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { HttpException } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common';
+import { Wedding } from 'src/weddings/entities/wedding.entity';
 
 
 @Injectable()
 export class TablesService {
   @InjectRepository(Table) private repository: Repository<Table>;
+  @InjectRepository(Wedding)  weddingRepository: Repository<Wedding>;
 
   async create(body: CreateTableDto) {
     let table=new Table()
@@ -19,10 +21,16 @@ export class TablesService {
     table.amountOfTables=body.amountOfTables,
     table.seats=body.seats,
     table.users=body.users
+    let wedding= await this.weddingRepository.findOne({ id: body.weddingId })
+     
 
   if (table.users.length>table.seats) {
     throw new HttpException( `Maksymalna liczba osób przy stole to ${table.seats}`, HttpStatus.BAD_REQUEST )
-  } else return this.repository.save(table);
+  } else return this.repository.save(
+  this.repository.create({
+    ...table,
+  }),
+);
   
   }
 

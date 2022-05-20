@@ -1,4 +1,5 @@
-import {  Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Wedding } from "src/weddings/entities/wedding.entity";
+import {  Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 export enum TablesKind {
     ROUND = 'round',
@@ -25,6 +26,10 @@ export class Table {
 
     @Column({ array: true })
     users: string;
+
+    @ManyToOne(()=> Wedding, wedding=> wedding.tables, {onDelete:'CASCADE'})
+    @JoinColumn()
+    wedding:Wedding 
 
 
 }

@@ -4,7 +4,7 @@ import { UpdateCalendarDto } from './dto/update-calendar.dto';
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Calendar } from './entities/calendar.entity';
-import { Task } from 'src/tasks/entities/task.entity';
+
 
 @Injectable()
 export class CalendarsService {
@@ -15,8 +15,9 @@ export class CalendarsService {
       return this.repository.save(calendar);
   }
 
-  findAll() {
+  async findAll() {
     return this.repository.find();
+    
   }
 
   findOne(id: number) {

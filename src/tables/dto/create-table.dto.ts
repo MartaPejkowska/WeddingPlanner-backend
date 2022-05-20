@@ -1,4 +1,4 @@
-import { IsEnum, IsNumber, IsString, MaxLength } from "class-validator";
+import { IsEnum, IsNumber, IsString, MaxLength, IsNotEmpty } from "class-validator";
 import { TablesKind } from "../entities/table.entity";
 
 
@@ -16,5 +16,8 @@ seats:number;
 @IsString({ each: true })
 
  users:string;
+
+ @IsNotEmpty()
+    weddingId:number
 
 }
