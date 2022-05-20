@@ -28,7 +28,6 @@ export class Table {
     users: string;
 
     @ManyToOne(()=> Wedding, wedding=> wedding.tables, {onDelete:'CASCADE'})
-    @JoinColumn()
     wedding:Wedding 
 
 

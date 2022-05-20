@@ -24,6 +24,6 @@ export class Wedding {
     @OneToMany(()=> Table, table=> table.wedding, {cascade:true, eager:true})
     tables: Table[]
 
-     @OneToMany(()=> Picture, picture=> picture.img, {cascade:true, eager:true})
-    pictures: Picture[]
+    //  @OneToMany(()=> Picture, picture=> picture.img, {cascade:true, eager:true})
+    // pictures: Picture[]
 }

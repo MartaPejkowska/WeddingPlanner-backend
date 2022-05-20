@@ -21,14 +21,15 @@ export class TablesService {
     table.amountOfTables=body.amountOfTables,
     table.seats=body.seats,
     table.users=body.users
+    
     let wedding= await this.weddingRepository.findOne({ id: body.weddingId })
-     
-
+    table.wedding=wedding
+       
   if (table.users.length>table.seats) {
     throw new HttpException( `Maksymalna liczba osób przy stole to ${table.seats}`, HttpStatus.BAD_REQUEST )
   } else return this.repository.save(
   this.repository.create({
-    ...table,
+    ...table, wedding
   }),
 );
   
@@ -47,7 +48,7 @@ export class TablesService {
   }
 
   update(id: number, body: UpdateTableDto) {
-    return this.repository.findOne({
+   let updateTable= this.repository.findOne({
       id:id
     }).then(table => {
       table.kind=body.kind,
@@ -58,7 +59,7 @@ export class TablesService {
       
       if (table.users.length>table.seats) {
         throw new HttpException( `Maksymalna liczba osób przy stole to ${table.seats}`, HttpStatus.BAD_REQUEST)
-      } else return this.repository.save(table);
+      } else return this.repository.save(updateTable);
       
   })
 }
