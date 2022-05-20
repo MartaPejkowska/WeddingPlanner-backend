@@ -4,20 +4,29 @@ import { UpdateBudgetDto } from './dto/update-budget.dto';
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Budget } from "./entities/budget.entity";
+import { Wedding } from 'src/weddings/entities/wedding.entity';
 
 
 @Injectable()
 export class BudgetsService {
 @InjectRepository(Budget) private repository: Repository<Budget>;
+@InjectRepository(Wedding)  weddingRepository: Repository<Wedding>;
 
-  create(body: CreateBudgetDto) {
+  async create(body: CreateBudgetDto) {
       let budget=new Budget()
-      let sum=0
+      let wedding= await this.weddingRepository.findOne({ id: body.weddingId })
+     
       budget.budget=body.budget,
       budget.costs=body.costs,
       budget.name=body.name     
+      budget.wedding=wedding
      
-      return this.repository.save(budget);
+      return this.repository.save(
+        this.repository.create({
+          ...budget, wedding
+        }),
+      )
+     
     };
 
   findAll() {

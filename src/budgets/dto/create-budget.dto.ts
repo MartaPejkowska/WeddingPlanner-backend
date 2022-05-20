@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateBudgetDto {
     @IsNumber()
@@ -9,5 +9,8 @@ export class CreateBudgetDto {
 
     @IsString()
     name: string;
+
+    @IsNotEmpty()
+    weddingId:number
 
 }
