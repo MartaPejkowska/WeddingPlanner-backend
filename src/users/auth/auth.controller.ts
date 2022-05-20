@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from '../dto/create-user.dto';
 import { User } from '../entities/user.entity';
 import { LoginDto } from '../dto/login-user.dto';
-import { ActiveJwtAuthGuard, JwtAuthGuard } from './auth.guard';
+import {  JwtAuthGuard } from './auth.guard';
 import { Request } from 'express';
 
 @Controller('auth')
@@ -13,18 +13,20 @@ export class AuthController {
   private readonly service: AuthService;
 
   @Post('register')
-  @UseInterceptors(ClassSerializerInterceptor)
   private register(@Body() body: RegisterDto): Promise<User | never> {
     return this.service.register(body);
   }
 
   @Post('login')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   private login(@Body() body: LoginDto): Promise<string | never> {
     return this.service.login(body);
   }
 
   @Post('refresh')
-  @UseGuards(ActiveJwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
   private refresh(@Req() { user }: Request): Promise<string | never> {
     return this.service.refresh(<User>user);
   }
