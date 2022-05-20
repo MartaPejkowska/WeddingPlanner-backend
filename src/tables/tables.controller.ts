@@ -18,17 +18,17 @@ export class TablesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.tablesService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTableDto: UpdateTableDto) {
+  update(@Param('id') id: number, @Body() updateTableDto: UpdateTableDto) {
     return this.tablesService.update(+id, updateTableDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: number) {
     return this.tablesService.remove(+id);
   }
 }
