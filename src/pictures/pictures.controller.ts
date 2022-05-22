@@ -21,11 +21,6 @@ export class PicturesController {
     async addImg( @UploadedFile() file: Express.Multer.File, @Body() dto: CreatePictureDto) {
       return this.picturesService.addImg(  file.buffer, dto);
     }
-
-
-  @Get()
-
-  findAll() {return this.picturesService.findAll();}
   
   
     @Get(':id')

@@ -12,18 +12,10 @@ export class CalendarsController {
     return this.calendarsService.create(createCalendarDto);
   }
 
-  @Get()
-  findAll() {
-    return this.calendarsService.findAll();
-  }
-
+ 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.calendarsService.findOne(+id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.calendarsService.remove(+id);
-  }
 }

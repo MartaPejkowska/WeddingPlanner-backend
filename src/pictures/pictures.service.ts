@@ -21,11 +21,6 @@ export class PicturesService {
     return this.picturesRepository.save(picture)
   }
 
-
-  async findAll() {
-    const img= await this.picturesRepository.find()
-    return img ;
-  }
  
   async getImg(id: number){
     const img= await this.picturesRepository.createQueryBuilder("picture")

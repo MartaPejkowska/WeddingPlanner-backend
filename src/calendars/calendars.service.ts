@@ -22,10 +22,6 @@ export class CalendarsService {
     )
   }
 
-  async findAll() {
-    return this.repository.find();
-    
-  }
 
   findOne(id: number) {
     
@@ -33,11 +29,5 @@ export class CalendarsService {
     .where("calendar.id = " + id)
     .getOne()
     
-  }
-
-
-  async remove(id: number) {
-    let calendar = await this.repository.findOne(id);
-    this.repository.remove(calendar);
   }
 }
