@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateBudgetDto } from './dto/create-budget.dto';
 import { UpdateBudgetDto } from './dto/update-budget.dto';
 import { InjectRepository } from "@nestjs/typeorm";
@@ -15,6 +15,10 @@ export class BudgetsService {
   async create(body: CreateBudgetDto) {
       let budget=new Budget()
       let wedding= await this.weddingRepository.findOne({ id: body.weddingId })
+
+      if(!wedding) {
+        throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+      }
      
       budget.budget=body.budget,
       budget.costs=body.costs,
@@ -35,40 +39,42 @@ export class BudgetsService {
 
   findOne(id: number) {
 
-      return this.repository.createQueryBuilder("budget")
-    .where("budget.id = " + id)
-    .getOne()
+    let budget= this.repository.findOne(id)
+
+    if(!budget) {
+      throw new HttpException('Budget not found', HttpStatus.NOT_FOUND);
+    }
+
+    return budget;
     
   }
 
-  update(id: number, body: UpdateBudgetDto) {
+  async update(id: number, body: UpdateBudgetDto) {
 
-    return this.repository.findOne({
-      id:id
-    }).then(budget => {
+    let budget=  await this.repository.findOne(id)
+
+    if(!budget) {
+      throw new HttpException('Budget not found', HttpStatus.NOT_FOUND);
+    }
+    
       budget.budget=body.budget,
       budget.costs=body.costs,
       budget.name=body.name
       
       return this.repository.save(budget);
-     })
+     
    }
 
   async remove(id: number) {
     let budget = await this.repository.findOne(id);
+
+    if(!budget) {
+      throw new HttpException('Budget not found', HttpStatus.NOT_FOUND);
+    }
+
     this.repository.remove(budget);
   }
   
-//  async sum(){
-//   let {sum }= await this.repository.createQueryBuilder("budget")
-//     // .select("budget.costs")
-//     .select("SUM(budget.costs)", "sum")
-//     // .groupBy("budget.costs")
-//     .getRawOne()
-
-//     return sum
-  
-// }
    
   }
 

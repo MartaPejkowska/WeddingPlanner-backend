@@ -30,8 +30,7 @@ export class Wedding {
     @JoinColumn()
     calendar: Calendar
 
-    @OneToOne(() => Budget, budget => budget.wedding, {cascade:true, eager:true}) // specify inverse side as a second parameter
-    @JoinColumn()
+    @OneToMany(() => Budget, budget => budget.wedding, {cascade:true, eager:true}) // specify inverse side as a second parameter
     budget: Budget
     
     @OneToMany(()=> Picture, picture=> picture.wedding, { eager:true})

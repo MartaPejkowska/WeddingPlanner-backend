@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateWeddingDto } from './dto/create-wedding.dto';
 import { UpdateWeddingDto } from './dto/update-wedding.dto';
@@ -27,7 +27,11 @@ export class WeddingsService {
 
   findOne(id: number) {
    
-    return this.weddingRepository.findOne(id)
+   let wedding= this.weddingRepository.findOne(id)
+
+   if(!wedding) {
+    throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+  }
     
   }
 
@@ -41,8 +45,11 @@ export class WeddingsService {
 }
 
   async remove(id: number) {
-    let Wedding = await this.weddingRepository.findOne(id);
-    this.weddingRepository.remove(Wedding);
+    let wedding = await this.weddingRepository.findOne(id);
+    if(!wedding) {
+      throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+    }
+    this.weddingRepository.remove(wedding);
   }
 
 

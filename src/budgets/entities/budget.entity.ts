@@ -1,5 +1,5 @@
 import { Wedding } from "src/weddings/entities/wedding.entity";
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne} from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
 
 @Entity()
 export class Budget {
@@ -15,10 +15,8 @@ export class Budget {
   @Column()
   name: string;
 
-  @OneToOne(() => Wedding, wedding => wedding.budget) // specify inverse side as a second parameter
+  @ManyToOne(() => Wedding, wedding => wedding.budget) // specify inverse side as a second parameter
     wedding: Wedding
 
-  // @Column()
-  // sum: number;
 
 }

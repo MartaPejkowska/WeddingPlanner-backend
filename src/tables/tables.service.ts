@@ -24,6 +24,10 @@ export class TablesService {
     
     let wedding= await this.weddingRepository.findOne({ id: body.weddingId })
      table.wedding=wedding
+
+     if(!wedding) {
+      throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+    }
        
   if (table.users.length>table.seats) {
     throw new HttpException( `Maksymalna liczba osób przy stole to ${table.seats}`, HttpStatus.BAD_REQUEST )

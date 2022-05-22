@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCalendarDto } from './dto/create-calendar.dto';
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -14,6 +14,10 @@ export class CalendarsService {
     let calendar=new Calendar()
     let wedding= await this.weddingRepository.findOne({ id: body.weddingId })
     calendar.wedding=wedding
+
+    if(!wedding) {
+      throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+    }
    
     return this.repository.save(
       this.repository.create({
@@ -25,9 +29,11 @@ export class CalendarsService {
 
   findOne(id: number) {
     
-    return this.repository.createQueryBuilder("calendar")
-    .where("calendar.id = " + id)
-    .getOne()
+    let calendar= this.repository.findOne(id)
+
+    if(!calendar) {
+      throw new HttpException('Calendar not found', HttpStatus.NOT_FOUND);
+    }
     
   }
 }
