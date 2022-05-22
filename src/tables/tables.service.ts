@@ -44,17 +44,23 @@ export class TablesService {
   }
 
   findOne(id: number) {
-    
-    return this.repository.createQueryBuilder("table")
-    .where("table.id = " + id)
-    .getOne()
+
+    let table= this.repository.findOne(id)
+
+    if(!table ) {
+      throw new HttpException('Table not found', HttpStatus.NOT_FOUND);
+    }
+
+    return table;    
     
   }
 
-  update(id: number, body: UpdateTableDto) {
-   let updateTable= this.repository.findOne({
-      id:id
-    }).then(table => {
+  async update(id: number, body: UpdateTableDto) {
+   let table= await this.repository.findOne(id)
+
+    if(!table) {
+      throw new HttpException('Table not found', HttpStatus.NOT_FOUND);
+    }
       table.kind=body.kind,
       table.amountOfTables=body.amountOfTables,
       table.seats=body.seats,
@@ -63,13 +69,18 @@ export class TablesService {
       
       if (table.users.length>table.seats) {
         throw new HttpException( `Maksymalna liczba osób przy stole to ${table.seats}`, HttpStatus.BAD_REQUEST)
-      } else return this.repository.save(updateTable);
+      } else return this.repository.save(table);
       
-  })
+  
 }
 
   async remove(id: number) {
     let table = await this.repository.findOne(id);
+
+    if(!table) {
+      throw new HttpException('Table not found', HttpStatus.NOT_FOUND);
+    }
+    
     this.repository.remove(table);
   }
 }
