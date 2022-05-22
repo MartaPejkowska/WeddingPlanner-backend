@@ -18,7 +18,6 @@ export class AuthController {
   }
 
   @Post('login')
-  @UseGuards(JwtAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   private login(@Body() body: LoginDto): Promise<string | never> {
     return this.service.login(body);
