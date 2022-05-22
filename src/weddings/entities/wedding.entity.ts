@@ -1,7 +1,8 @@
 
 import { Bride } from "src/brides/entities/bride.entity";
 import { Groom } from "src/grooms/entities/groom.entity";
-import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Guest } from "src/guests/entities/guest.entity";
+import { Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Wedding {
@@ -16,5 +17,8 @@ export class Wedding {
     @OneToOne(() => Groom, (groom) => groom.wedding,{eager:true}) 
     @JoinColumn()
     groom: Groom
+
+    @OneToMany(() => Guest, (guest) => guest.wedding,{eager:true}) 
+    guests: Guest[]
 
 }
