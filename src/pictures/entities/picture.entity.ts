@@ -17,8 +17,8 @@ export class Picture {
 img: Uint8Array;
 
 
-// @ManyToOne(()=> Wedding, wedding=> wedding.pictures, {onDelete:'CASCADE'})
-// wedding:Wedding;
+@ManyToOne(()=> Wedding, wedding=> wedding.pictures)
+wedding:Wedding;
 
 
 }

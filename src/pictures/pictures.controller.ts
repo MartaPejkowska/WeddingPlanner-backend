@@ -14,38 +14,21 @@ export class PicturesController {
     private readonly picturesService: PicturesService,
   ) {}
  
-   @Post('img')
-
-  // @Post('img/:weddingId')
+   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
-    async addImg( @UploadedFile() file: Express.Multer.File) {
-      return this.picturesService.addImg( file.buffer, file.originalname);
+    async addImg( @UploadedFile() file: Express.Multer.File, @Body() dto: CreatePictureDto) {
+      return this.picturesService.addImg(  file.buffer, dto);
     }
 
-    
-    // async create(@Param('weddingId') weddingId: number,  @UploadedFile() file: Express.Multer.File ) {
+
+  @Get()
+
+  findAll() {return this.picturesService.findAll();}
   
-    //   return this.picturesService.create(+weddingId, file.buffer, file.originalname);
-    // }
-
-
-  // @Get('img')
-  // async findAll(@Response({ passthrough: true }) res) {
-  //   // return this.picturesService.findAll();
-   
-  //     res.set({
-  //       'Content-Type': 'image/jpeg',
-        
-  //     });
-      
-  //     return new StreamableFile(await this.picturesService.findAll());
-  // }
-
-
-
-  @Get('img/:id')
+  
+    @Get(':id')
   async getFile(@Param('id') id: number, @Response({ passthrough: true }) res) {
     res.set({
       'Content-Type': 'image/jpeg',
@@ -56,7 +39,7 @@ export class PicturesController {
 
   }
 
-    @Delete('img/:id')
+    @Delete(':id')
     remove(@Param('id') id: number) {
       return this.picturesService.remove(+id);
     }

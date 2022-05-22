@@ -34,6 +34,6 @@ export class Wedding {
     @JoinColumn()
     budget: Budget
     
-    // @OneToMany(()=> Picture, picture=> picture.img, {cascade:true, eager:true})
-    // pictures: Picture[]
+    @OneToMany(()=> Picture, picture=> picture.wedding, { eager:true})
+    pictures: Picture[]
 }

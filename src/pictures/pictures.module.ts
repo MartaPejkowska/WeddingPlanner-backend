@@ -7,7 +7,7 @@ import { Wedding } from 'src/weddings/entities/wedding.entity';
 
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Picture]),  TypeOrmModule.forFeature([Wedding])],
+  imports:[TypeOrmModule.forFeature([Picture, Wedding])],
   controllers: [PicturesController],
   providers: [PicturesService]
 })
