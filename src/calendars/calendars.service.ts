@@ -15,7 +15,7 @@ export class CalendarsService {
     let wedding= await this.weddingRepository.findOne({ id: body.weddingId })
     calendar.wedding=wedding
 
-    if(!wedding) {
+    if(!wedding ) {
       throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
     }
    
@@ -31,9 +31,11 @@ export class CalendarsService {
     
     let calendar= this.repository.findOne(id)
 
-    if(!calendar) {
+    if(!calendar || []) {
       throw new HttpException('Calendar not found', HttpStatus.NOT_FOUND);
     }
+
+    return calendar
     
   }
 }

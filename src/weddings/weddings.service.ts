@@ -32,16 +32,21 @@ export class WeddingsService {
    if(!wedding) {
     throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
   }
+  return wedding
     
   }
 
-  update(id: number, body: UpdateWeddingDto) {
-    return this.weddingRepository.findOne({
-      id:id
-    }).then(Wedding => {
+  async update(id: number, body: UpdateWeddingDto) {
+    let wedding= await this.weddingRepository.findOne(id)
+
+    if(!wedding) {
+     throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+   }
+   wedding.date=body.date,
+   wedding.kind=body.kind
      
-      return this.weddingRepository.save(Wedding);
-  })
+      return this.weddingRepository.save(wedding);
+  
 }
 
   async remove(id: number) {
