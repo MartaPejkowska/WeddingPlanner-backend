@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectRepository } from "@nestjs/typeorm";
@@ -15,10 +15,17 @@ export class TasksService {
      
       task.title=body.title,
       task.date=body.date
+
+      let calendar= await this.repositoryCalendar.findOne({ id: body.CalendarId })
+
+      if(!calendar) {
+        throw new HttpException('Calendar not found', HttpStatus.NOT_FOUND);
+      }
+
       return this.repository.save(
         this.repository.create({
           ...task,
-          calendar: await this.repositoryCalendar.findOne({ id: body.CalendarId }),
+          calendar,
         }),
       )
   }
@@ -28,22 +35,28 @@ export class TasksService {
   }
 
   findOne(id: number) {
-    
-    return this.repository.createQueryBuilder("task")
-    .where("task.id = " + id)
-    .getOne()
+    let task= this.repository.findOne(id)
+
+    if(!task) {
+      throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+    }
+
+    return task;    
     
   }
 
-  update(id: number, body: UpdateTaskDto) {
-    return this.repository.findOne({
-      id:id
-    }).then(task => {
+  async update(id: number, body: UpdateTaskDto) {
+    let task= await this.repository.findOne(id)
+
+    if(!task) {
+      throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+    }
+
       task.title=body.title
       task.date=body.date  
       
       return this.repository.save(task);
-  })
+ 
 }
 
   async remove(id: number) {

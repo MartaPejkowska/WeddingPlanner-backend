@@ -1,33 +1,44 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { JwtAuthGuard } from 'src/users/auth/auth.guard';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard) 
+  @UseInterceptors(ClassSerializerInterceptor) 
   create(@Body() createTaskDto: CreateTaskDto) {
     return this.tasksService.create(createTaskDto);
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard) 
+  @UseInterceptors(ClassSerializerInterceptor) 
   findAll() {
     return this.tasksService.findAll();
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard) 
+  @UseInterceptors(ClassSerializerInterceptor) 
   findOne(@Param('id') id: number) {
     return this.tasksService.findOne(+id);
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard) 
+  @UseInterceptors(ClassSerializerInterceptor) 
   update(@Param('id') id: number, @Body() updateTaskDto: UpdateTaskDto) {
     return this.tasksService.update(+id, updateTaskDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard) 
+  @UseInterceptors(ClassSerializerInterceptor) 
   remove(@Param('id') id: number) {
     return this.tasksService.remove(+id);
   }
