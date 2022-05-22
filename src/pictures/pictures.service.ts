@@ -1,4 +1,4 @@
-import { Injectable, StreamableFile } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, StreamableFile } from '@nestjs/common';
 import { CreatePictureDto } from './dto/create-picture.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -16,6 +16,11 @@ export class PicturesService {
     const picture= new Picture()
     picture.img= imageBuffer
     let wedding= await this.weddingRepository.findOne({id: dto.weddingId})
+
+    if(!wedding ) {
+      throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+    }
+    
     picture.wedding=wedding
 
     return this.picturesRepository.save(picture)
@@ -23,15 +28,22 @@ export class PicturesService {
 
  
   async getImg(id: number){
-    const img= await this.picturesRepository.createQueryBuilder("picture")
-    .where("picture.id = " + id)
-    .getOne()
+    const img= await this.picturesRepository.findOne(id)
+
+    if(!img){
+      throw new HttpException('Picture not found', HttpStatus.NOT_FOUND);
+    }
 
     return img.img;
   }
 
   async remove(id: number) {
     let picture = await this.picturesRepository.findOne(id);
+
+    if(!picture){
+      throw new HttpException('Picture not found', HttpStatus.NOT_FOUND);
+    }
+
     this.picturesRepository.remove(picture);
   }
  

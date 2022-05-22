@@ -24,6 +24,8 @@ export class PicturesController {
   
   
     @Get(':id')
+    @UseGuards(JwtAuthGuard) 
+    @UseInterceptors(ClassSerializerInterceptor)
   async getFile(@Param('id') id: number, @Response({ passthrough: true }) res) {
     res.set({
       'Content-Type': 'image/jpeg',
@@ -35,6 +37,8 @@ export class PicturesController {
   }
 
     @Delete(':id')
+    @UseGuards(JwtAuthGuard) 
+    @UseInterceptors(ClassSerializerInterceptor)
     remove(@Param('id') id: number) {
       return this.picturesService.remove(+id);
     }
