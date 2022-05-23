@@ -30,9 +30,6 @@ export class TasksService {
       )
   }
 
-  findAll() {
-    return this.repository.find();
-  }
 
   findOne(id: number) {
     let task= this.repository.findOne(id)

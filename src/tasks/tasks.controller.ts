@@ -15,13 +15,6 @@ export class TasksController {
     return this.tasksService.create(createTaskDto);
   }
 
-  @Get()
-  @UseGuards(JwtAuthGuard) 
-  @UseInterceptors(ClassSerializerInterceptor) 
-  findAll() {
-    return this.tasksService.findAll();
-  }
-
   @Get(':id')
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 

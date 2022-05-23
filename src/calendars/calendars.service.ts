@@ -31,7 +31,7 @@ export class CalendarsService {
     
     let calendar= this.repository.findOne(id)
 
-    if(!calendar || []) {
+    if(!calendar) {
       throw new HttpException('Calendar not found', HttpStatus.NOT_FOUND);
     }
 
