@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCalendarDto } from './dto/create-calendar.dto';
-import { UpdateCalendarDto } from './dto/update-calendar.dto';
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { Calendar } from './entities/calendar.entity';
+import { Wedding } from 'src/weddings/entities/wedding.entity';
+
 
 @Injectable()
 export class CalendarsService {
-  create(createCalendarDto: CreateCalendarDto) {
-    return 'This action adds a new calendar';
+  @InjectRepository(Calendar) private repository: Repository<Calendar>;
+  @InjectRepository(Wedding)  weddingRepository: Repository<Wedding>;
+ async create(body: CreateCalendarDto) {
+    let calendar=new Calendar()
+    let wedding= await this.weddingRepository.findOne({ id: body.weddingId })
+    calendar.wedding=wedding
+
+    if(!wedding ) {
+      throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+    }
+   
+    return this.repository.save(
+      this.repository.create({
+        ...calendar, wedding
+      }),
+    )
   }
 
-  findAll() {
-    return `This action returns all calendars`;
-  }
 
   findOne(id: number) {
-    return `This action returns a #${id} calendar`;
-  }
+    
+    let calendar= this.repository.findOne(id)
 
-  update(id: number, updateCalendarDto: UpdateCalendarDto) {
-    return `This action updates a #${id} calendar`;
-  }
+    if(!calendar) {
+      throw new HttpException('Calendar not found', HttpStatus.NOT_FOUND);
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} calendar`;
+    return calendar
+    
   }
 }

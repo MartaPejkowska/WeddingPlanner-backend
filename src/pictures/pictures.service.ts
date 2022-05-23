@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, StreamableFile } from '@nestjs/common';
 import { CreatePictureDto } from './dto/create-picture.dto';
-import { UpdatePictureDto } from './dto/update-picture.dto';
-
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import {Picture} from './entities/picture.entity';
+import { Wedding } from 'src/weddings/entities/wedding.entity';
+const bytea = require('postgres-bytea')
+ 
 @Injectable()
 export class PicturesService {
-  create(createPictureDto: CreatePictureDto) {
-    return 'This action adds a new picture';
+    @InjectRepository(Picture) private picturesRepository: Repository<Picture>;
+    @InjectRepository(Wedding)  weddingRepository: Repository<Wedding>
+  
+ 
+  async addImg( imageBuffer: Buffer, dto:CreatePictureDto) {
+    const picture= new Picture()
+    picture.img= imageBuffer
+    let wedding= await this.weddingRepository.findOne({id: dto.weddingId})
+
+    if(!wedding ) {
+      throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+    }
+    
+    picture.wedding=wedding
+
+    return this.picturesRepository.save(picture)
   }
 
-  findAll() {
-    return `This action returns all pictures`;
+ 
+  async getImg(id: number){
+    const img= await this.picturesRepository.findOne(id)
+
+    if(!img){
+      throw new HttpException('Picture not found', HttpStatus.NOT_FOUND);
+    }
+
+    return img.img;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} picture`;
-  }
+  async remove(id: number) {
+    let picture = await this.picturesRepository.findOne(id);
 
-  update(id: number, updatePictureDto: UpdatePictureDto) {
-    return `This action updates a #${id} picture`;
-  }
+    if(!picture){
+      throw new HttpException('Picture not found', HttpStatus.NOT_FOUND);
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} picture`;
+    this.picturesRepository.remove(picture);
   }
+ 
 }

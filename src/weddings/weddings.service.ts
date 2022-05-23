@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Bride } from 'src/brides/entities/bride.entity';
 import { Repository } from 'typeorm';
 import { CreateWeddingDto } from './dto/create-wedding.dto';
 import { UpdateWeddingDto } from './dto/update-wedding.dto';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Wedding } from './entities/wedding.entity';
 
 @Injectable()
@@ -11,23 +11,54 @@ export class WeddingsService {
   @InjectRepository(Wedding)
   private readonly weddingRepository: Repository<Wedding>;
 
-  create(createWeddingDto: CreateWeddingDto) {
-    return this.weddingRepository.save(new Wedding());
-  }
+  create(body: CreateWeddingDto) {
+    let wedding= new Wedding()
 
+    wedding.date=body.date,
+    wedding.kind=body.kind
+
+    return this.weddingRepository.save(wedding);
+  }
+      
+  
   findAll() {
-    return `This action returns all weddings`;
+    return this.weddingRepository.find();
   }
 
   findOne(id: number) {
-    return this.weddingRepository.findOne({id});
+   
+   let wedding= this.weddingRepository.findOne(id)
+
+   if(!wedding) {
+    throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+  }
+  return wedding
+    
   }
 
-  update(id: number, updateWeddingDto: UpdateWeddingDto) {
-    return `This action updates a #${id} wedding`;
-  }
+  async update(id: number, body: UpdateWeddingDto) {
+    let wedding= await this.weddingRepository.findOne(id)
 
-  remove(id: number) {
-    return `This action removes a #${id} wedding`;
-  }
+    if(!wedding) {
+     throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+   }
+   wedding.date=body.date,
+   wedding.kind=body.kind
+     
+      return this.weddingRepository.save(wedding);
+  
 }
+
+  async remove(id: number) {
+    let wedding = await this.weddingRepository.findOne(id);
+    if(!wedding) {
+      throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
+    }
+    this.weddingRepository.remove(wedding);
+  }
+
+
+
+}
+
+

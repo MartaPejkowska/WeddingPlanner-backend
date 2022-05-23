@@ -1,4 +1,4 @@
-import { Entity,PrimaryGeneratedColumn,Column,BeforeInsert,CreateDateColumn,UpdateDateColumn, OneToOne, JoinColumn } from "typeorm";
+import { Entity,PrimaryGeneratedColumn,Column,BeforeInsert,CreateDateColumn,UpdateDateColumn} from "typeorm";
 
  export enum UserRole {
   ADMIN = "admin",
