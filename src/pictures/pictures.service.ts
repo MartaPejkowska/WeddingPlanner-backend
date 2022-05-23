@@ -23,7 +23,7 @@ export class PicturesService {
     
     picture.wedding=wedding
 
-    return this.picturesRepository.save(picture)
+    this.picturesRepository.save(picture)
   }
 
  

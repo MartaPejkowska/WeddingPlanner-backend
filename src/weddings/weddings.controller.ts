@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ClassSerializerInterceptor, UseInterceptors, StreamableFile, Response } from '@nestjs/common';
 import { WeddingsService } from './weddings.service';
 import { CreateWeddingDto } from './dto/create-wedding.dto';
 import { UpdateWeddingDto } from './dto/update-wedding.dto';
@@ -13,13 +13,6 @@ export class WeddingsController {
   @UseInterceptors(ClassSerializerInterceptor) 
   create(@Body() createWeddingDto: CreateWeddingDto) {
     return this.weddingsService.create(createWeddingDto);
-  }
-
-  @Get()
-  @UseGuards(JwtAuthGuard) 
-  @UseInterceptors(ClassSerializerInterceptor) 
-  findAll() {
-    return this.weddingsService.findAll();
   }
 
   @Get(':id')
