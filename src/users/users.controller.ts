@@ -10,12 +10,12 @@ import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
 @ApiTags('users')
+@ApiBearerAuth('access-token')
 export class UsersController {
   constructor(private readonly usersService: UsersService,private mailService: MailService) {}
 
 
   @Patch(':id')
-  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor) 
    update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto,@Req() req: Request) {

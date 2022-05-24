@@ -8,11 +8,11 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('weddings')
 @ApiTags('weddings')
+@ApiBearerAuth('access-token')
 export class WeddingsController {
   constructor(private readonly weddingsService: WeddingsService) {}
 
   @Post()
-  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
   create(@Body() createWeddingDto: CreateWeddingDto) {
@@ -20,7 +20,6 @@ export class WeddingsController {
   }
 
   @Get(':id')
-  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
   findOne(@Param('id') id: string) {
@@ -28,7 +27,6 @@ export class WeddingsController {
   }
 
   @Patch(':id')
-  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
   update(@Param('id') id: string, @Body() updateWeddingDto: UpdateWeddingDto) {
@@ -36,7 +34,6 @@ export class WeddingsController {
   }
 
   @Delete(':id')
-  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
   remove(@Param('id') id: string) {

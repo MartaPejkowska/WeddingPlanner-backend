@@ -31,16 +31,3 @@ async function bootstrap() {
 
 bootstrap();
 
-
-
- 
-// async function bootstrap() {
-//   const app = await NestFactory.create(AppModule);
- 
-//   const configService = app.get(ConfigService);
- 
-//   // ...
- 
- 
-// }
-// bootstrap();

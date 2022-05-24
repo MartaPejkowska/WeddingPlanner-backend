@@ -8,13 +8,13 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('tasks')
 @ApiTags('tasks')
+@ApiBearerAuth('access-token')
 export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
-  @ApiBearerAuth()
   create(@Body() createTaskDto: CreateTaskDto) {
     return this.tasksService.create(createTaskDto);
   }

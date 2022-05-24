@@ -4,10 +4,11 @@ import { CreateGroomDto } from './dto/create-groom.dto';
 import { UpdateGroomDto } from './dto/update-groom.dto';
 import { JwtAuthGuard } from 'src/users/auth/auth.guard';
 import { Request } from 'express';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('grooms')
 @ApiTags('grooms')
+@ApiBearerAuth('access-token')
 export class GroomsController {
   constructor(private readonly groomsService: GroomsService) {}
 
