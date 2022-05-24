@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsEnum, IsNotEmpty, IsString } from "class-validator";
 import { Guest } from "src/guests/entities/guest.entity";
 
@@ -7,6 +8,7 @@ export enum WeddingRole {
     GUEST = "guest",
   }
 export class InviteUserDto {
+  @ApiProperty()
     @IsNotEmpty()
     @IsEmail()
     email: string;
