@@ -3,8 +3,10 @@ import { GuestsService } from './guests.service';
 import { CreateGuestDto } from './dto/create-guest.dto';
 import { UpdateGuestDto } from './dto/update-guest.dto';
 import { JwtAuthGuard } from 'src/users/auth/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('guests')
+@ApiTags('guests')
 export class GuestsController {
   constructor(private readonly guestsService: GuestsService) {}
 

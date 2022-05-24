@@ -1,10 +1,12 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/users/auth/auth.guard';
 import { CalendarsService } from './calendars.service';
 import { CreateCalendarDto } from './dto/create-calendar.dto';
 
 
 @Controller('calendars')
+@ApiTags('calendars')
 export class CalendarsController {
   constructor(private readonly calendarsService: CalendarsService) {}
 

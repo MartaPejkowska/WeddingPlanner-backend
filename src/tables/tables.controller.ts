@@ -3,8 +3,11 @@ import { TablesService } from './tables.service';
 import { CreateTableDto } from './dto/create-table.dto';
 import { UpdateTableDto } from './dto/update-table.dto';
 import { JwtAuthGuard } from 'src/users/auth/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
+
 
 @Controller('tables')
+@ApiTags('tables')
 export class TablesController {
   constructor(private readonly tablesService: TablesService) {}
 

@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, ClassSerializerInterceptor, Req } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/users/auth/auth.guard';
 import { BridesService } from './brides.service';
@@ -6,6 +7,7 @@ import { CreateBrideDto } from './dto/create-bride.dto';
 import { UpdateBrideDto } from './dto/update-bride.dto';
 
 @Controller('brides')
+@ApiTags('brides')
 export class BridesController {
   constructor(private readonly bridesService: BridesService) {}
 

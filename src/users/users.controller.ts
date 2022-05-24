@@ -6,8 +6,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ActiveJwtAuthGuard, JwtAuthGuard} from './auth/auth.guard';
 import { MailService } from 'src/mail/mail.service';
 import { User } from './entities/user.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
+@ApiTags('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService,private mailService: MailService) {}
 

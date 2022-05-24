@@ -3,8 +3,11 @@ import { WeddingsService } from './weddings.service';
 import { CreateWeddingDto } from './dto/create-wedding.dto';
 import { UpdateWeddingDto } from './dto/update-wedding.dto';
 import { JwtAuthGuard } from 'src/users/auth/auth.guard';
+import { ApiTags } from '@nestjs/swagger';
+ 
 
 @Controller('weddings')
+@ApiTags('weddings')
 export class WeddingsController {
   constructor(private readonly weddingsService: WeddingsService) {}
 
