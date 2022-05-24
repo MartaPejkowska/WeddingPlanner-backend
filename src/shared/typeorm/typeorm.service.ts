@@ -19,6 +19,14 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       entities: ['dist/**/*.entity.{ts,js}'],
       migrations: ['dist/migrations/*.{ts,js}'],
       migrationsTableName: 'typeorm_migrations',
+      ssl: true,
+  extra: {
+    ssl: {
+      "rejectUnauthorized": false
+    },
+    optons: {encrypt:false}
+  
+  },
       logger: 'file',
       synchronize: true, // never use TRUE in production!
     };
