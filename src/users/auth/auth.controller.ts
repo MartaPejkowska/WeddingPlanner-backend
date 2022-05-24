@@ -6,8 +6,10 @@ import { User } from '../entities/user.entity';
 import { LoginDto } from '../dto/login-user.dto';
 import {  JwtAuthGuard } from './auth.guard';
 import { Request } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   @Inject(AuthService)
   private readonly service: AuthService;

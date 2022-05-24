@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { LayoutsService } from './layouts.service';
 import { CreateLayoutDto } from './dto/create-layout.dto';
 import { UpdateLayoutDto } from './dto/update-layout.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('layouts')
+@ApiTags('layouts')
 export class LayoutsController {
   constructor(private readonly layoutsService: LayoutsService) {}
 

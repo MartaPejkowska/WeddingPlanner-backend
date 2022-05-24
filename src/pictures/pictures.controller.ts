@@ -6,9 +6,12 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { JwtAuthGuard } from 'src/users/auth/auth.guard';
 import { Response } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 
 @Controller('pictures')
+@ApiTags('pictures')
+@ApiBearerAuth('access-token')
 export class PicturesController {
   constructor(
     private readonly picturesService: PicturesService,
