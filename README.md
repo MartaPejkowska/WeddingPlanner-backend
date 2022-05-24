@@ -21,7 +21,7 @@
 
 ## Zespół projektowy
 
-Zespół pracował w ramach kursu [CodersCamp 2021](https://coderscamp.pl/), a aplikacja została wykonana pod okiem dwóch mentorów. Część zespołu kontynuowała pracę nad frontendem [Dostępny tutaj](https://github.com/AgnieszkaKapelanczyk/CodersCamp2021-2022-WeddingPlannerApp), a część rozpoczęła pracę nad backendem. 
+Zespół pracował w ramach kursu [CodersCamp 2021](https://coderscamp.pl/), a aplikacja została wykonana pod okiem dwóch mentorów. Część zespołu kontynuowała pracę nad frontendem [Dostępnym tutaj](https://github.com/AgnieszkaKapelanczyk/CodersCamp2021-2022-WeddingPlannerApp), a część rozpoczęła pracę nad backendem. 
 
 **Mentorzy**: Dariusz Knysak, Paweł Michalak
 
