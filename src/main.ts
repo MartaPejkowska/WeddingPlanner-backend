@@ -20,14 +20,22 @@ async function bootstrap() {
   .setVersion('1.0')
   .build();
 
-  app.enableCors({
-    origin:true,
-    allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
-    methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS",
-    credentials: true,
+
+
+    app.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
+      next();
     });
 
 
+    app.enableCors({
+      allowedHeaders:"*",
+      origin: "*"
+  });
+
+  
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
   
