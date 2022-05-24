@@ -3,13 +3,21 @@ import { Bride } from 'src/brides/entities/bride.entity';
 import { Repository } from 'typeorm';
 import { CreateWeddingDto } from './dto/create-wedding.dto';
 import { UpdateWeddingDto } from './dto/update-wedding.dto';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, StreamableFile } from '@nestjs/common';
 import { Wedding } from './entities/wedding.entity';
+import { Picture } from 'src/pictures/entities/picture.entity';
+
+class imgIdObject {
+  picture_id: number
+}
 
 @Injectable()
 export class WeddingsService {
   @InjectRepository(Wedding)
   private readonly weddingRepository: Repository<Wedding>;
+
+  @InjectRepository(Picture)
+  private readonly pictureRepository: Repository<Picture>;
 
   create(body: CreateWeddingDto) {
     let wedding= new Wedding()
@@ -20,19 +28,22 @@ export class WeddingsService {
     return this.weddingRepository.save(wedding);
   }
       
-  
-  findAll() {
-    return this.weddingRepository.find();
-  }
 
-  findOne(id: number) {
+  async findOne(id: number) {
    
-   let wedding= this.weddingRepository.findOne(id)
+   let wedding= await this.weddingRepository.findOne(id)
 
    if(!wedding) {
     throw new HttpException('Wedding not found', HttpStatus.NOT_FOUND);
   }
-  return wedding
+
+   let ids:imgIdObject[] = await this.pictureRepository.createQueryBuilder("picture")
+   .select("picture.id").where("picture.weddingId="+id).execute();
+   let mapped = ids.map(id => {
+      return id.picture_id;  
+  })
+
+  return {...wedding,images:mapped};
     
   }
 
@@ -60,5 +71,3 @@ export class WeddingsService {
 
 
 }
-
-

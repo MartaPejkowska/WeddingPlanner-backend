@@ -3,7 +3,7 @@ import { WeddingsService } from './weddings.service';
 import { CreateWeddingDto } from './dto/create-wedding.dto';
 import { UpdateWeddingDto } from './dto/update-wedding.dto';
 import { JwtAuthGuard } from 'src/users/auth/auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
  
 
 @Controller('weddings')
@@ -12,20 +12,15 @@ export class WeddingsController {
   constructor(private readonly weddingsService: WeddingsService) {}
 
   @Post()
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
   create(@Body() createWeddingDto: CreateWeddingDto) {
     return this.weddingsService.create(createWeddingDto);
   }
 
-  @Get()
-  @UseGuards(JwtAuthGuard) 
-  @UseInterceptors(ClassSerializerInterceptor) 
-  findAll() {
-    return this.weddingsService.findAll();
-  }
-
   @Get(':id')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
   findOne(@Param('id') id: string) {
@@ -33,6 +28,7 @@ export class WeddingsController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
   update(@Param('id') id: string, @Body() updateWeddingDto: UpdateWeddingDto) {
@@ -40,9 +36,11 @@ export class WeddingsController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
   remove(@Param('id') id: string) {
     return this.weddingsService.remove(+id);
   }
 }
+ 

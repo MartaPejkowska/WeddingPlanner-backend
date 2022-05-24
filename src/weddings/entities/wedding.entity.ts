@@ -48,6 +48,6 @@ export class Wedding {
     @OneToMany(() => Budget, budget => budget.wedding, {cascade:true, eager:true}) // specify inverse side as a second parameter
     budget: Budget
     
-    @OneToMany(()=> Picture, picture=> picture.wedding, { eager:true})
+    @OneToMany(()=> Picture, picture=> picture.wedding, { lazy:true})
     pictures: Picture[]
 }
