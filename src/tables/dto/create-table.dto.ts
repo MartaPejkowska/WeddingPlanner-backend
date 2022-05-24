@@ -10,6 +10,7 @@ export class CreateTableDto {
 kind: TablesKind;
 
 @ApiProperty({example:10})
+@IsNumber()
 amountOfTables:number;
 
 @ApiProperty({example:10})
