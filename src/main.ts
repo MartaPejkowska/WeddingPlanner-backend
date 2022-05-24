@@ -19,7 +19,15 @@ async function bootstrap() {
   .setDescription('WeddingPlanner backend with NestJS')
   .setVersion('1.0')
   .build();
-  
+
+  app.enableCors({
+    origin:true,
+    allowedHeaders: 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
+    methods: "GET,PUT,POST,DELETE,UPDATE,OPTIONS",
+    credentials: true,
+    });
+
+
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
   
