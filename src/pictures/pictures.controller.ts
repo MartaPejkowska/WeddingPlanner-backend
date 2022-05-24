@@ -6,7 +6,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { JwtAuthGuard } from 'src/users/auth/auth.guard';
 import { Response } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 
 
 @Controller('pictures')
@@ -18,6 +18,19 @@ export class PicturesController {
   ) {}
  
    @Post()
+   @ApiConsumes('multipart/form-data')
+   @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        weddingId: { type: 'integer' },
+        file: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
   @UseInterceptors(FileInterceptor('file'))
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
