@@ -3,7 +3,7 @@ import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { JwtAuthGuard } from 'src/users/auth/auth.guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
  
 
 @Controller('tasks')
@@ -14,6 +14,7 @@ export class TasksController {
   @Post()
   @UseGuards(JwtAuthGuard) 
   @UseInterceptors(ClassSerializerInterceptor) 
+  @ApiBearerAuth()
   create(@Body() createTaskDto: CreateTaskDto) {
     return this.tasksService.create(createTaskDto);
   }

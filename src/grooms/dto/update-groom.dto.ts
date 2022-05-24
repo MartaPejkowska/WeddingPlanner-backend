@@ -4,11 +4,12 @@ import { IsArray, IsNumber, IsOptional } from 'class-validator';
 import { CreateGroomDto } from './create-groom.dto';
 
 export class UpdateGroomDto extends PartialType(CreateGroomDto) {
-    @ApiProperty()
+    @ApiProperty({example: 665748958})
     @IsNumber()
     @IsOptional()
     phone: number;
 
+    @ApiProperty({example: ['garnitur', 'koszula']})
     @IsArray()
     @IsOptional()
     clothes: string[];

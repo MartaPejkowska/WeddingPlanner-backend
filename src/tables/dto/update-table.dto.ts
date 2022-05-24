@@ -9,12 +9,15 @@ export class UpdateTableDto extends PartialType(CreateTableDto) {
 @IsEnum({TablesKind})
 kind: TablesKind
 
+@ApiProperty({example:9})
 @IsNumber()
 amountOfTables:number;
 
+@ApiProperty({example:12})
 @IsNumber()
 seats:number;
 
+@ApiProperty({example:['Babcia','Dziadek','Ola','Ania', 'Arek']})
 @IsString({ each: true })
  users:string;
 }

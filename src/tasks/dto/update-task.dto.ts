@@ -6,7 +6,7 @@ import { Column } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class UpdateTaskDto extends PartialType(CreateTaskDto) {
-    @ApiProperty()
+    @ApiProperty({example:'Próbna fryzura'})
     @IsNotEmpty()
     title: string; 
     

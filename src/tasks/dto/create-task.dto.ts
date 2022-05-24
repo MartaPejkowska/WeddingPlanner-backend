@@ -4,7 +4,7 @@ import { Column } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateTaskDto {
-    @ApiProperty()
+    @ApiProperty({example:'Przymiarka sukni ślubnej'})
     @IsNotEmpty()
     title: string; 
     
@@ -13,7 +13,8 @@ export class CreateTaskDto {
     @Type(() => Date)
     @IsDate()
     date: Date ;
-
+    
+    @ApiProperty({example:1})
     @IsNotEmpty()
     CalendarId:number
 

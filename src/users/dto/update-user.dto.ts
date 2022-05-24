@@ -4,12 +4,15 @@ import { IsEmail, IsNotEmpty, Min, Max,Matches,Validate, IsString } from "class-
 import { CustomMatchPasswords } from '../CustomMatchPasswords ';
 import { RegisterDto } from './create-user.dto';
 export class UpdateUserDto extends PartialType(RegisterDto) {
-    @ApiProperty()
+    @ApiProperty({example:'martapejk@gmail.com'})
     @IsEmail()
     email: string;
+
     @Validate(CustomMatchPasswords, ['repassword'])
+    @ApiProperty({example:'silneHaslo2'})
     @IsString()
     password: string;
+    @ApiProperty({example:'silneHaslo2'})
     @IsString()
     repassword: string;
 }

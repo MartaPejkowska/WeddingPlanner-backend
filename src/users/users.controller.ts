@@ -6,7 +6,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ActiveJwtAuthGuard, JwtAuthGuard} from './auth/auth.guard';
 import { MailService } from 'src/mail/mail.service';
 import { User } from './entities/user.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
 @ApiTags('users')
@@ -15,8 +15,9 @@ export class UsersController {
 
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard) //wkleić jeśli ktoś ma być zalogowany
-  @UseInterceptors(ClassSerializerInterceptor) //
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(ClassSerializerInterceptor) 
    update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto,@Req() req: Request) {
     return this.usersService.update(id,updateUserDto,req);
   }

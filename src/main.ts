@@ -13,9 +13,10 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   
-  const swaggerConfig = new DocumentBuilder()
-  .setTitle('API with NestJS')
-  .setDescription('API developed throughout the API with NestJS course')
+  const swaggerConfig = new DocumentBuilder().addBearerAuth( { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+  'access-token',)
+  .setTitle('WeddingPlanner')
+  .setDescription('WeddingPlanner backend with NestJS')
   .setVersion('1.0')
   .build();
   
