@@ -58,10 +58,12 @@ export class AuthService {
     }
 
     const isPasswordValid: boolean = this.helper.isPasswordValid(password, user.password);
+    const isUserActive: boolean = user.isActive;
 
-    if (!isPasswordValid) {
+    if (!isPasswordValid || !isUserActive) {
       throw new HttpException('No user found', HttpStatus.NOT_FOUND);
     }
+
 
     this.repository.update(user.id, { lastLoginAt: new Date() });
 
